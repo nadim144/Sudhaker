@@ -7,8 +7,6 @@
 
 #include "MDCStoreImageLib.h"
 #include "MDCStoreUtilsApi.h"
-//#include "MDCS_PLATE_GetSitesByPlate_CallBack.h"
-//#include "MDCS_ASSAY_GetAllForPlate_CallBack.cpp"
 
 using namespace std;
 extern "C"
@@ -17,9 +15,10 @@ extern "C"
 	{
 	private:
 		MDCS_ST_UserLogin m_uLoging;
-		HDBHANDLE m_DBHandle;
+		MDCS_DBHandleSmartPtr* ptrDB;
 	public:
 		MDCStoreImageLibrary();
+		~MDCStoreImageLibrary();
 		bool Lib_MDCStoreUtils_Init();
 		bool Lib_UserLogin(std::string, std::string, std::string, std::string);
 		bool Lib_GetImage(int);

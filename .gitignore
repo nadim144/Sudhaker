@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/MetaXpressDataExtraction/v16
+/Build/Win32/Debug
+/MDCStoreImageApp/obj/x86/Debug
+/MDCStoreImageCLR/Debug
+/MDCStoreImageLib/Win32/Debug

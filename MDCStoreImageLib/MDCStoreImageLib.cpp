@@ -12,7 +12,7 @@
 // The one and only application object
 CWinApp theApp;
 
-MDCStoreImageLibrary::MDCStoreImageLibrary() : m_DBHandle(nullptr)
+MDCStoreImageLibrary::MDCStoreImageLibrary() : ptrDB(nullptr)
 {
 	// Default Constructor
 }
@@ -36,11 +36,10 @@ extern "C" bool MDCStoreImageLibrary::Lib_UserLogin(string UserName, string Pass
 	strncpy_s(m_uLoging.szDSN, DSN.c_str(), min(sizeof(m_uLoging.szUserName) - 1, strlen(DSN.c_str())));
 	strncpy_s(m_uLoging.szDatabase, DBName.c_str(), min(sizeof(m_uLoging.szUserName) - 1, strlen(DBName.c_str())));
 
-	//get database handle 
-	MDCS_DBHandleSmartPtr ptrDB(m_uLoging);
-	if (ptrDB.GetHandle())
+	// Get Database handle ... 
+	ptrDB = new MDCS_DBHandleSmartPtr(m_uLoging);
+	if (ptrDB->GetHandle())
 	{
-		m_DBHandle = ptrDB.GetHandle();
 		return true;
 	}
 	else
@@ -82,7 +81,7 @@ extern "C" bool MDCStoreImageLibrary::Lib_GetImage(int PlateId)
 extern "C" void MDCStoreImageLibrary::Lib_GetPlateInfo(int lPlateID, vector<MDCS_ST_PlateInfo>& vec_st_PlateInfo)
 {
 	MDCS_ST_PlateInfo st_PlateInfo;
-	MDCS_PLATE_GetInfo(m_DBHandle, lPlateID, st_PlateInfo);
+	MDCS_PLATE_GetInfo(ptrDB->GetHandle(), lPlateID, st_PlateInfo);
 
 	//Dummy data for testing
 	st_PlateInfo.lPlateID = 10;
@@ -106,4 +105,10 @@ extern "C" void MDCStoreImageLibrary::Lib_GetPlateInfo(int lPlateID, vector<MDCS
 	vec_st_PlateInfo.push_back(st_PlateInfo);
 }
 
+
+MDCStoreImageLibrary::~MDCStoreImageLibrary()
+{
+	delete ptrDB;
+	ptrDB = nullptr;
+}
 
